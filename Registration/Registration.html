@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continental University Registration Program</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+        .university-image {
+            width: 200px;
+            height: 200px;
+            background-image: url('uni_image.svg'); 
+            background-size: cover;
+            border-radius: 50%;
+            margin: 20px auto;
+            z-index: 1;
+        }
+        button {
+            background-color: skyblue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: yellowgreen;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Continental University Registration Program</h2>
+    <div class="university-image"></div>
+    <button onclick="promptUser()">Start Registration</button>
+
+    <div class="results">
+        <p id="studentName">Student Name: </p>
+        <p id="studentType">Student Type: </p>
+        <p id="residency">Residency: </p>
+        <p id="registrationFee">Registration Fee: </p>
+        <p id="tuitionRate">Tuition Rate (Per Credit): </p>
+        <p id="tuition">Tuition: </p>
+        <p id="totalFee">Total Fee: </p>
+    </div>
+
+    <script>
+        function promptUser() {
+            const name = prompt("Enter your name:");
+            const studentTypeInput = prompt("Enter B for Bachelor, M for Master:");
+            const residencyInput = prompt("Enter I for In-State, O for Out-State:");
+            const credits = prompt("Enter total credits:");
+
+            const studentType = studentTypeInput.toUpperCase() === 'B' ? 'Bachelor' : 'Master';
+            const residency = residencyInput.toUpperCase() === 'I' ? 'In-State' : 'Out-State';
+
+            calculateFees(name, studentType, residency, credits);
+        }
+
+        function calculateFees(name, studentType, residency, credits) {
+            const fees = {
+                'Bachelor': {
+                    'In-State': { registrationFee: 200, tuitionRate: 350 },
+                    'Out-State': { registrationFee: 600, tuitionRate: 700 }
+                },
+                'Master': {
+                    'In-State': { registrationFee: 300, tuitionRate: 450 },
+                    'Out-State': { registrationFee: 900, tuitionRate: 900 }
+                }
+            };
+
+            credits = parseInt(credits, 10); // Convert credits to an integer
+            const selectedFees = fees[studentType][residency];
+            const registrationFee = selectedFees.registrationFee;
+            const tuitionRate = selectedFees.tuitionRate;
+            const tuition = tuitionRate * credits;
+            const totalFee = registrationFee + tuition;
+
+            document.getElementById('studentName').innerText = `Student Name: ${name}`;
+            document.getElementById('studentType').innerText = `Student Type: ${studentType}`;
+            document.getElementById('residency').innerText = `Residency: ${residency}`;
+            document.getElementById('registrationFee').innerText = `Registration Fee: $${registrationFee}`;
+            document.getElementById('tuitionRate').innerText = `Tuition Rate (Per Credit): $${tuitionRate}`;
+            document.getElementById('tuition').innerText = `Tuition: $${tuition}`;
+            document.getElementById('totalFee').innerText = `Total Fee: $${totalFee}`;
+        }
+    </script>
+</body>
+</html>
